@@ -21,6 +21,8 @@ import { DenemeservisService } from './services/componentServices/denemeservis.s
 import { NotfoundComponent } from './common/notfound/notfound.component';
 import { HomepageComponent } from './common/homepage/homepage.component';
 import { UnauthorizedComponent } from './common/unauthorized/unauthorized.component';
+import { AdminComponent } from './admin/admin/admin.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { UnauthorizedComponent } from './common/unauthorized/unauthorized.compon
     DeneComponent,
     NotfoundComponent,
     HomepageComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    AdminComponent,
+    HomeComponent
       ],
   imports: [
     BrowserModule,

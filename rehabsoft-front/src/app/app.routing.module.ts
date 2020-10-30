@@ -8,24 +8,32 @@ import { AuthGuard } from './security/auth.guard';
 import {NotfoundComponent} from "./common/notfound/notfound.component";
 import { HomepageComponent } from './common/homepage/homepage.component';
 import {UnauthorizedComponent} from "./common/unauthorized/unauthorized.component"
+import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './admin/admin/admin.component';
+import { Role } from './models/role';
+
 
 const routes: Routes = [
   {
-    path: '', component: AppLayoutComponent,canActivate: [AuthGuard], //her durumda bu olacak yani.Altında da tanımlı sayfalardan bir tane (childlardan birisi.)
-    children: [
-
-      {path: 'homepage',component:HomepageComponent},
-      {path: 'deneme', component: DeneComponent}
-    ]
-  },
+    path: '',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+},
+{
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin] }
+},
+{
+    path: 'login',
+    component: LoginComponent
+},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path:"unauthorized",component:UnauthorizedComponent},
+  {path: 'deneme', component: DeneComponent},
   {path: '**', component: NotfoundComponent}
-
-
-
-
 
 ];
 

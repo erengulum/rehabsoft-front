@@ -3,39 +3,51 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
 
+import { BehaviorSubject, Observable } from 'rxjs';
 
-
-//Login ve logout tislemleri Authentication Service'de gerçekleşir
+import { User } from '../models/user';
+import { TokenDto } from '../models/tokendto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {
-  }
+    private currentUserSubject: BehaviorSubject<TokenDto>;
+    public currentUser: Observable<TokenDto>;
+
+    constructor(private http: HttpClient) {
+        this.currentUserSubject = new BehaviorSubject<TokenDto>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
+
+    public get currentUserValue(): TokenDto {
+        return this.currentUserSubject.value;
+    }
+
+    login(username: string, password: string) {
+      return this.http.post<any>(environment.API_BASE_PATH + '/token', { username, password })
+            .pipe(map(user => {
+                // login successful if there's a jwt token in the response
+                if (user && user.token) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                }
+
+                return user;
+            }));
+    }
+
+    register(registerData) {
+      return this.http.post<any>(environment.API_BASE_PATH + '/token/register', registerData)
+        .pipe(map(resp => {
+          return resp;
+        }));
+    }
+  
 
 
-  login(username: string, password: string) {
-    return this.http.post<any>(environment.API_BASE_PATH + '/token', { username, password })
-      .pipe(map(user => {
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-        }
-        return user;
-      }));
-  }
-
-  register(registerData) {
-    return this.http.post<any>(environment.API_BASE_PATH + '/token/register', registerData)
-      .pipe(map(resp => {
-        return resp;
-      }));
-  }
-
-  logout() {
-    localStorage.removeItem('currentUser'); //bu currentUser bilgisi localStorage'de tutulur.Giris yapilirken buraya storelanır
-  }
-
-
-
-
-
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
 }
