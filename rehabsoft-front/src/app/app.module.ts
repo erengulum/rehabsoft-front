@@ -16,10 +16,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DeneComponent } from './deneme/dene/dene.component';
-import { DenemeservisService } from './services/componentServices/denemeservis.service';
 import { NotfoundComponent } from './common/notfound/notfound.component';
-import { HomepageComponent } from './common/homepage/homepage.component';
 import { UnauthorizedComponent } from './common/unauthorized/unauthorized.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { HomeComponent } from './home/home.component';
@@ -33,9 +30,7 @@ import { HomeComponent } from './home/home.component';
     AppLayoutComponent,
     LoginComponent,
     RegisterComponent,
-    DeneComponent,
     NotfoundComponent,
-    HomepageComponent,
     UnauthorizedComponent,
     AdminComponent,
     HomeComponent
@@ -48,7 +43,7 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ApiService,AuthenticationService,AuthGuard,DenemeservisService,
+  providers: [ApiService,AuthenticationService,AuthGuard,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}, //giden her requeste JWT token'ını ekliyor dogrulama icin
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   
