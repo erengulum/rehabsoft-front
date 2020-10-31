@@ -18,7 +18,7 @@
         <label>Şifre</label>
         <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Şifre boş bırakılamaz</div>
+          <div *ngIf="f.password.errors.required">Şifre alanı boş bırakılamaz</div>
         </div>
       </div>
 
