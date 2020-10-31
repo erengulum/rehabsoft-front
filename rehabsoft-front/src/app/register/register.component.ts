@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 import {AuthenticationService} from "../security/authentication.service";
+import { MustMatch } from '../helpers/must-match.validator';
 
 
 @Component({
@@ -25,10 +26,13 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      name:['', Validators.required],
+      firstName:['', Validators.required],
       surname: ['', Validators.required],
       email: ['', Validators.required], //E-mail ile dogrulamayı daha sonra eklemeyi unutma: https://blog.mailtrap.io/angular-email-validation/
-    });
+      confirmPassword: ['', Validators.required]
+    }, {
+      validator: MustMatch('password', 'confirmPassword')
+  });
     this.authenticationService.logout();
   }
 
